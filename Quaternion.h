@@ -59,12 +59,17 @@ class Quaternion {
 
         Quaternion inverse() const;
 
+        float get_w() const;
+        Vect get_v() const;
+
         // PRINT QUATERNION IN w + xi + yj + zk FORM
         // I want to make this round the values                                                     !!!NOTE!!!
         void print_ijk() const;
 
         // ROTATION MEMBER FUNCTIONS
         //-----------------------------------------------------------------------------------
+
+        Quaternion get_rotationQuat(float theta, vector<float> axis) const;
 
         // ROTATE BY SOME ANGLE AROUND SOME AXIS
         // maybe make this a void mutable method... maybe not

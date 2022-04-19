@@ -201,7 +201,11 @@ int main() {
     Euler T(1,1,1);
     T.get_A().printMatrix();
 
-    vector<float> initPt{0,0,1};
+	vector<float> initPt;
+	initPt[0] = 0;
+	initPt[1] = 0;
+	initPt[2] = 1;
+
     vector<float> finalPt = T.rotate(initPt);
     printPt(finalPt);
 

@@ -244,6 +244,13 @@ Quaternion Quaternion::inverse() const {
     }
 }
 
+float Quaternion::get_w() const {
+    return w;
+}
+Vect Quaternion::get_v() const {
+    return v;
+}
+
 // PRINT QUATERNION IN w + xi + yj + zk FORM
 // I want to make this round the values                                                   
 void Quaternion::print_ijk() const {
@@ -256,6 +263,7 @@ void Quaternion::print_ijk() const {
 
 // ROTATION MEMBER FUNCTIONS
 //-----------------------------------------------------------------------------------
+
 // ROTATE BY SOME ANGLE AROUND SOME AXIS
 // maybe make this a void mutable method... maybe not
 Quaternion Quaternion::rotate(float theta, const Quaternion & d) const {
