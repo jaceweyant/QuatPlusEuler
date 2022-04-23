@@ -49,6 +49,12 @@ Euler::Euler(float phi, float theta, float psi) {
     A = (B*C)*D;
 }
 
+Euler Euler::operator=(Euler& e) {
+	Euler newE;
+	newE.A = e.A;
+	return newE;
+}
+
 Matrix Euler::get_A() {
     return A;
 }
@@ -194,20 +200,4 @@ void Matrix::printMatrix() {
 		cout << endl;
 	}
 	cout << endl;
-}
-
-int main() {
-
-    Euler T(1,1,1);
-    T.get_A().printMatrix();
-
-	vector<float> initPt;
-	initPt[0] = 0;
-	initPt[1] = 0;
-	initPt[2] = 1;
-
-    vector<float> finalPt = T.rotate(initPt);
-    printPt(finalPt);
-
-    return 0;
 }

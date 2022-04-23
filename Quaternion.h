@@ -69,11 +69,12 @@ class Quaternion {
         // ROTATION MEMBER FUNCTIONS
         //-----------------------------------------------------------------------------------
 
-        Quaternion get_rotationQuat(float theta, vector<float> axis) const;
+        Quaternion get_rot(float theta) const;
 
         // ROTATE BY SOME ANGLE AROUND SOME AXIS
         // maybe make this a void mutable method... maybe not
         Quaternion rotate(float theta, const Quaternion & d) const;
+        Quaternion rotate(Quaternion & q) const;
 
         float get_angle();
 

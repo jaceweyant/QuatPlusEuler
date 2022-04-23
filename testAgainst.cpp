@@ -9,29 +9,7 @@
 
 using namespace std;
 
-
-
-vector<vector<float> > quatsToPts(vector<float> p, vector<float> axis, int numRotations) {
-    Quaternion thisPt(0,p[0],p[1],p[2]);
-    Quaternion thisAxis(0,axis[0],axis[1],axis[2]);
-    vector<vector<float> > ptsArr;
-    vector<float> thisPtVect;
-    float thisAngle = 0;
-    for (int i; i < numRotations; i++) {
-        Quaternion thisPt2;
-        thisPt2 = thisPt.rotate(thisAngle, thisAxis);
-
-        thisPtVect[0] = thisPt2.get_direction().get_x();
-        thisPtVect[1] = thisPt2.get_direction().get_y();
-        thisPtVect[2] = thisPt2.get_direction().get_z();
-
-        ptsArr[i] = thisPtVect;
-
-        thisAngle += (2 * 3.14159)/numRotations;
-    }
-    return ptsArr;
-}
-
+const float PI = 3.14159;
 
 Euler quatToEuler(Quaternion q) {
     float phi, theta, psi;
@@ -50,21 +28,50 @@ Euler quatToEuler(Quaternion q) {
     return e;
 }
 
-vector<vector<float> > createEulerRotations() {
-
+vector<Quaternion> createRotQuats(vector<float> axis, int numAngles) {
+    vector<Quaternion> qArr;
+    float thisAngle = 0;
+    Quaternion thisQ;
+    Quaternion axisQ(0, axis[0], axis[1], axis[2]);
+    for (int i=0; i<numAngles; i++) {
+        thisQ = axisQ.get_rot(thisAngle);
+        qArr.push_back(thisQ);
+        thisAngle += (1/numAngles) * 2 * PI;
+    }
+    return qArr;
 }
 
-vector<vector<float> > createEulerRotations(vector<float> p, vector<float> eAngles, int numAngles) {
-    /*
-    Euler thisEuler(eAngles[0], eAngles[1], eAngles[2]);
-
-    float thisAngle = 0;
-    vector<float> thisPtVect;
-    for (int i; i < numAngles; i++) {
-        thisPtVect = thisEuler.rotate(p);
+vector<Euler> createRotEulers(vector<Quaternion> qArr) {
+    vector<Euler> eArr;
+    for (int i=0; i<qArr.size(); i++) {
+        eArr.push_back(quatToEuler(qArr[i]));
     }
-    */
-    
+    return eArr;
+}
+
+vector<vector<float> > quatRotsToPts(vector<float> pt, vector<Quaternion> qArr) {
+    vector<vector<float> > ptsArr;
+    Quaternion initPtQ(0, pt[0], pt[1], pt[2]);
+    Quaternion nextPtQ;
+    vector<float> nextPt;
+    for (int i=0; i<qArr.size(); i++) {
+        nextPtQ = initPtQ.rotate(qArr[i]);
+        nextPt.push_back(nextPtQ.get_v().get_x());
+        nextPt.push_back(nextPtQ.get_v().get_y());
+        nextPt.push_back(nextPtQ.get_v().get_z());
+        ptsArr.push_back(nextPt);
+    }
+    return ptsArr;
+}
+
+vector<vector<float> > eulerRotsToPts(vector<float> pt, vector<Euler> eArr) {
+    vector<vector<float> > ptsArr;
+    vector<float> nextPt;
+    for (int i=0; i<eArr.size(); i++) {
+        nextPt = eArr[i].rotate(pt);
+        ptsArr.push_back(nextPt);
+    }
+    return ptsArr;  
 }
 
 

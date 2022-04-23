@@ -19,6 +19,8 @@ public:
     Euler(float phi, float theta, float psi);
     Euler(const Euler& e);
 
+    Euler operator=(Euler& e);
+
     Matrix get_A();
 
     vector<float> rotate(vector<float>& pt);

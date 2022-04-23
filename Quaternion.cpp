@@ -264,6 +264,13 @@ void Quaternion::print_ijk() const {
 // ROTATION MEMBER FUNCTIONS
 //-----------------------------------------------------------------------------------
 
+Quaternion Quaternion::get_rot(float theta) const{
+    Quaternion newQuat;
+    newQuat.w = cos(theta/2);
+    newQuat.v = v.norm() * sin(theta/2);
+    return newQuat;
+}
+
 // ROTATE BY SOME ANGLE AROUND SOME AXIS
 // maybe make this a void mutable method... maybe not
 Quaternion Quaternion::rotate(float theta, const Quaternion & d) const {
@@ -275,12 +282,19 @@ Quaternion Quaternion::rotate(float theta, const Quaternion & d) const {
         float m = mag();
         Quaternion p1 = norm();
         Quaternion q1;
-        q1.w = cos(theta/2);
-        q1.v = d.v.norm() * (sin(theta/2));
+        q1 = d.get_rot(theta);
         Quaternion q2 = q1.inverse();
         Quaternion p2 = (q1 * p1) * q2;
         return p2*m;
     }
+}
+
+Quaternion Quaternion::rotate(Quaternion & q) const {
+    float m = mag();
+    Quaternion p1 = norm();
+    Quaternion qinv = q.inverse();
+    Quaternion p2 = (q * p1) * qinv;
+    return p2*m;
 }
 
 float Quaternion::get_angle() {
@@ -375,34 +389,5 @@ map<float, Quaternion> manyRotations(int numAngles, const Quaternion & p1, const
     return my_map;
 }
 
-
-
-int main() {
-
-
-    cout << "Testing Quaternion class...\n\n";
-    cout << "Pick a tester:\n";
-    cout << "a) Simple input/output tester\n" << "b) test many rotations at once\n";
-
-    char this_test;
-    cin >> this_test;
-
-    if (this_test == 'a') {
-        inputTester();
-    }
-    else if (this_test == 'b') {
-        int numAngles;
-        cout << "How many angles shall we test for? ";
-        cin >> numAngles;
-
-        map<float,Quaternion> this_map = manyRotations(numAngles, Quaternion(0,1,0,0), Quaternion(0,0,1,0));
-    }
-    else {
-        cout << "INVALID INPUT\n";
-    }
-
-
-    return 0;
-}
 // BE
 // LONGER
