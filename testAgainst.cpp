@@ -6,7 +6,6 @@
 #include "Euler.cpp"
 #include "Quaternion.cpp"
 
-
 using namespace std;
 
 const float PI = 3.14159;

@@ -17,7 +17,8 @@ public:
     // INITIALIZERS
     Euler();
     Euler(float phi, float theta, float psi);
-    Euler(const Euler& e);
+    Euler(Euler & e);
+    Euler(Euler && e);
 
     Euler operator=(Euler& e);
 

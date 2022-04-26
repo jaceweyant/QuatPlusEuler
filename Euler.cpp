@@ -49,11 +49,21 @@ Euler::Euler(float phi, float theta, float psi) {
     A = (B*C)*D;
 }
 
+Euler::Euler(Euler & e) {
+	A = e.A;
+}
+
+Euler::Euler(Euler && e) {
+	A = e.A;
+}
+
 Euler Euler::operator=(Euler& e) {
 	Euler newE;
 	newE.A = e.A;
 	return newE;
 }
+
+
 
 Matrix Euler::get_A() {
     return A;
