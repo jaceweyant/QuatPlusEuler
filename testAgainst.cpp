@@ -29,13 +29,12 @@ Euler quatToEuler(Quaternion q) {
 
 vector<Quaternion> createRotQuats(vector<float> axis, int numAngles) {
     vector<Quaternion> qArr;
-    float thisAngle = 0;
+    float angleIncr = (1/numAngles) * 2 * PI;
     Quaternion thisQ;
     Quaternion axisQ(0, axis[0], axis[1], axis[2]);
     for (int i=0; i<numAngles; i++) {
-        thisQ = axisQ.get_rot(thisAngle);
+        thisQ = axisQ.get_rot(i * angleIncr);
         qArr.push_back(thisQ);
-        thisAngle += (1/numAngles) * 2 * PI;
     }
     return qArr;
 }
@@ -73,8 +72,45 @@ vector<vector<float> > eulerRotsToPts(vector<float> pt, vector<Euler> eArr) {
     return ptsArr;  
 }
 
+bool test(vector<float> initPt, vector<float> axis, int numAngles) {
+    vector<Quaternion> qArr;
+    qArr = createRotQuats(axis, numAngles);
+
+    vector<Euler> eArr;
+    eArr = createRotEulers(qArr);
+
+    vector<vector<float> > qPts;
+    qPts = quatRotsToPts(initPt, qArr);
+
+    vector<vector<float> > ePts;
+    ePts = eulerRotsToPts(initPt, eArr);
+
+    bool isWorking = true;
+    for (int i=0; i<numAngles; i++) {
+        if (qPts[i] != ePts[i]) {
+            isWorking = false;
+            cout << "place = " << i << "\n";
+            cout << "quat result = " << qPts[i][0] << ", " << qPts[i][1] << ", " << qPts[i][2] << "\n";
+            cout << "euler result = " << ePts[i][0] << ", " << ePts[i][1] << ", " << ePts[i][2] << "\n\n";
+        }
+    }
+    return isWorking;
+}
 
 int main() {
+
+    vector<float> initPt1;
+    initPt1.push_back(1);
+    initPt1.push_back(0);
+    initPt1.push_back(0);
+
+    vector<float> axis1;
+    axis1.push_back(0);
+    axis1.push_back(0);
+    axis1.push_back(1);
+
+    bool test1 = test(initPt1, axis1, 10);
+
     return 0;
 }
 
