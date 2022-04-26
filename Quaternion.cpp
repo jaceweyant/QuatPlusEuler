@@ -247,6 +247,15 @@ Quaternion Quaternion::inverse() const {
 float Quaternion::get_w() const {
     return w;
 }
+float Quaternion::get_qx() const {
+    return v.x;
+}
+float Quaternion::get_qy() const {
+    return v.y;
+}
+float Quaternion::get_qz() const {
+    return v.z;
+}
 Vect Quaternion::get_v() const {
     return v;
 }

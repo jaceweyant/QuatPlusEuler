@@ -60,6 +60,9 @@ class Quaternion {
         Quaternion inverse() const;
 
         float get_w() const;
+        float get_qx() const;
+        float get_qy() const;
+        float get_qz() const;
         Vect get_v() const;
 
         // PRINT QUATERNION IN w + xi + yj + zk FORM

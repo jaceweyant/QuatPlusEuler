@@ -27,9 +27,10 @@ Euler quatToEuler(Quaternion q) {
     return e;
 }
 
-vector<Quaternion> createRotQuats(vector<float> axis, int numAngles) {
+// NOT WORKING (quats in arr all the same)
+vector<Quaternion> createRotQuats(vector<float> axis, float numAngles) {
     vector<Quaternion> qArr;
-    float angleIncr = (1/numAngles) * 2 * PI;
+    float angleIncr = (1/ numAngles) * 2 * PI;
     Quaternion thisQ;
     Quaternion axisQ(0, axis[0], axis[1], axis[2]);
     for (int i=0; i<numAngles; i++) {
@@ -41,7 +42,8 @@ vector<Quaternion> createRotQuats(vector<float> axis, int numAngles) {
 
 vector<Euler> createRotEulers(vector<Quaternion> qArr) {
     vector<Euler> eArr;
-    for (int i=0; i<qArr.size(); i++) {
+    for (int i=qArr.size() - 1; i>=0; i--) {
+        // FOR SOME REASON THE EULER ARRAY IS EXACTLY BACKWARDS FROM THE QUAT ARRAY WHEN MAPPING FRONT LEFT TO RIGHT
         eArr.push_back(quatToEuler(qArr[i]));
     }
     return eArr;
@@ -49,14 +51,25 @@ vector<Euler> createRotEulers(vector<Quaternion> qArr) {
 
 vector<vector<float> > quatRotsToPts(vector<float> pt, vector<Quaternion> qArr) {
     vector<vector<float> > ptsArr;
+
     Quaternion initPtQ(0, pt[0], pt[1], pt[2]);
+    Quaternion rotQ;
     Quaternion nextPtQ;
+
     vector<float> nextPt;
+    for (int i=0; i<3; i++) {
+        nextPt.push_back(0);
+    }
+
     for (int i=0; i<qArr.size(); i++) {
-        nextPtQ = initPtQ.rotate(qArr[i]);
-        nextPt.push_back(nextPtQ.get_v().get_x());
-        nextPt.push_back(nextPtQ.get_v().get_y());
-        nextPt.push_back(nextPtQ.get_v().get_z());
+        rotQ = qArr[i];
+        nextPtQ = initPtQ.rotate(rotQ);
+
+        // SOMETHING WEIRD HAPPENING HERE --- RESOLVED!!
+        nextPt[0] = nextPtQ.get_qx();
+        nextPt[1] = nextPtQ.get_qy();
+        nextPt[2] = nextPtQ.get_qz();
+
         ptsArr.push_back(nextPt);
     }
     return ptsArr;
@@ -72,9 +85,18 @@ vector<vector<float> > eulerRotsToPts(vector<float> pt, vector<Euler> eArr) {
     return ptsArr;  
 }
 
+void print_qArr(vector<Quaternion> qArr) {
+    for (int i=0; i<qArr.size(); i++) {
+        Quaternion q;
+        q = qArr[i];
+        // q.print_ijk();
+    }
+}
+
 bool test(vector<float> initPt, vector<float> axis, int numAngles) {
     vector<Quaternion> qArr;
-    qArr = createRotQuats(axis, numAngles);
+    qArr = createRotQuats(axis, numAngles); // NOT WORKING
+    print_qArr(qArr);
 
     vector<Euler> eArr;
     eArr = createRotEulers(qArr);
@@ -108,8 +130,16 @@ int main() {
     axis1.push_back(0);
     axis1.push_back(0);
     axis1.push_back(1);
+    
+    int numAngles;
 
+    // NOT WORKING (qPts is not changing for diff angles)
     bool test1 = test(initPt1, axis1, 10);
+
+
+
+
+
 
     return 0;
 }

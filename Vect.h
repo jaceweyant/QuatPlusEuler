@@ -72,6 +72,8 @@ class Vect {
         float x;
         float y;
         float z;
+
+        friend class Quaternion;
 };
 
 
