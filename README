@@ -1,0 +1,24 @@
+QuatPlusEuler Repo Notes
+
+Project created by Jace Weyant
+
+This project serves as a testing mechanism for two different novel data types I created in C++. The first type, Quaternion, represents the 4-dimensional complex number system of the same name. The second type, Euler, represents an Eulerian rotation transformation, which mathematically is a 3x3 matrix constructed from three discrete rotation transformations.
+
+Each of these data types have methods which perform what is essentially a rotation of some point in 3-dimensional space. The purpose of this particular repo was to test these rotation methods against one another to see if they produce the same result.
+
+The broader purpose of this testing was in service of troubleshooting a project I made that would add quaternion rotation functionality to a visual programming environment called Touchdesigner. I use this software to create live interactive visuals for performance, and in my work I often find myself desiring a way to easily compute 3D rotations when modeling and rendering 3D geometries. The project seems to work in some cases but not all, so this test is supposed to point me to what might be wrong with the Quaternion type.
+
+There is a rather major problem with this project in the testAgainst.cpp file. The code runs without error, but the quaternion rotation group seems to produce results that are not consistant with what would be expected. As a result, no matter the initial values, the test always fails. Going forward, I will be taking a closer look at the code in this file to see what is going wrong so as to fix it.
+
+Included files:
+    1. Euler.cpp and Euler.h : This is the definition and implementation of the Euler class.
+    2. Matrix.cpp and Matrix.h :
+    This is the definition and implementation of a Matrix class. I used this as a helper class to the Euler class.
+    3. Quaternion.cpp and Quaternion.h :
+    This is the definition and implementation of the Quaternion class.
+    4. Vect.cpp and Vect.h :
+    This is the definition and implementation of a Vect class, used as a helper class to the Quaternion class.
+    5. testAgainst.cpp : This is the testing mechanism. It imports in the Quaternion and Euler files to construct and perform the testing.
+    6. makefile : This is a make file which allows the user to easily compile the code in this repo.
+
+To run the program, from inside the QuatPlusEuler directory, enter the command, make test, into the terminal. This should compile the testAgainst.cpp. Then, enter the newly created file name in its place, ./test, to run the code. To clean up the files after running, enter the command, make clear.
