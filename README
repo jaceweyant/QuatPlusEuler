@@ -21,4 +21,4 @@ Included files:
     5. testAgainst.cpp : This is the testing mechanism. It imports in the Quaternion and Euler files to construct and perform the testing.
     6. makefile : This is a make file which allows the user to easily compile the code in this repo.
 
-To run the program, from inside the QuatPlusEuler directory, enter the command, make test, into the terminal. This should compile the testAgainst.cpp. Then, enter the newly created file name in its place, ./test, to run the code. To clean up the files after running, enter the command, make clear.
+To run the program, from inside the QuatPlusEuler directory, enter the command, make test, into the terminal. This should compile the testAgainst.cpp. Then, enter the newly created file name in its place, ./test, to run the code. To clean up the files after running, enter the command, make clean.
